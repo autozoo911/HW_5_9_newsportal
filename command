@@ -100,6 +100,15 @@ post_4.like()
 author_1.update_rating()
 author_2.update_rating()
 
+# Выводим username и рейтинг лучшего пользователя
+username = Author.objects.all().order_by('-rating').values('user__username', 'rating')[0]
+
+# Вывести дату добавления, username автора, рейтинг,
+# заголовок и превью лучшей статьи, основываясь на лайках/дислайках к этой статье.
+post = Post.objects.all().order_by('-post_rating').values('date_time_in', 'author__user__username', 'post_rating', 'article_text')[0]
+
+
+
 Есть проблема: Комментарии автора считаются дважды, как отдельно комментарии автора
 и как часть всех комментариев к статьям автора. Они идут в общую сумму.
 Но поскольку не было каких либо уточнений по этому поводу я не стал усложнять.
