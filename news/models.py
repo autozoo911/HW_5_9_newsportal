@@ -17,6 +17,9 @@ class Author(models.Model):
 
         self.save()
 
+    def __str__(self):
+        return f'{self.user}, рейтинг: {self.rating}'
+
 
 class Category(models.Model):
     sport = 'sport'
@@ -30,10 +33,13 @@ class Category(models.Model):
 
     name = models.CharField(max_length=20, choices=CATEGORIES, unique=True)
 
+    # def __str__(self):
+    #     return self.name.title
+
 
 class Post(models.Model):
     news = 'NW'
-    article = 'PT'
+    article = 'AT'
 
     ARTICLES = [(news, 'Новость'), (article, 'Статья')]
 
@@ -44,7 +50,7 @@ class Post(models.Model):
     article_text = models.TextField(max_length=10000, default='Text')
     post_rating = models.IntegerField(default=0, db_column='rating')
 
-    categories = models.ManyToManyField(Category, through='PostCategory')
+    categories = models.ManyToManyField(Category, through='PostCategory', related_name='post')
 
     @property
     def rating(self):
@@ -68,6 +74,9 @@ class Post(models.Model):
 
     def preview(self):
         return f'{self.article_text[0:124]}...'
+
+    def __str__(self):
+        return f'{self.title} : {self.article_text[:120]}, рейтинг:{self.post_rating}'
 
 
 class PostCategory(models.Model):
@@ -101,3 +110,6 @@ class Comment(models.Model):
     def dislike(self):
         self.comment_rating -= 1
         self.save()
+
+    def __str__(self):
+        return f'{self.text} : {self.comment_rating}'

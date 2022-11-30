@@ -108,7 +108,6 @@ username = Author.objects.all().order_by('-rating').values('user__username', 'ra
 post = Post.objects.all().order_by('-post_rating').values('date_time_in', 'author__user__username', 'post_rating', 'article_text')[0]
 
 
-
 Есть проблема: Комментарии автора считаются дважды, как отдельно комментарии автора
 и как часть всех комментариев к статьям автора. Они идут в общую сумму.
 Но поскольку не было каких либо уточнений по этому поводу я не стал усложнять.
